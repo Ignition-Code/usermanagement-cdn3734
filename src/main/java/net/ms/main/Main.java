@@ -1,6 +1,7 @@
 package net.ms.main;
 
 import net.ms.util.Alphabet;
+import net.ms.util.MatrixOperations;
 
 import java.util.List;
 
@@ -22,18 +23,17 @@ public class Main {
         //Obtenemos la lista de alfabetos
         final List<String> alphabetList = Alphabet.getAlphabetList();
         //Instanciamos la matriz 'M'
-        final Integer[][] matrixM = new Integer[3][numberOfColumns];
+        final int[][] matrixM = new int[3][numberOfColumns];
         //La matriz 'A' tendrá valores por defecto asignados (tiene que extraer de un archivo)
-        final Integer[][] matrixA = {
+        final int[][] matrixA = {
                 {2, 1, 2},
                 {-1, 5, -1},
                 {3, 1, 6}
         };
         //Matriz 'B' va a ser igual a matriz 'M' para términos de prueba copiamos el mismo
-        final Integer[][] matrixB = matrixM;
+        final int[][] matrixB = MatrixOperations.getRandomMatrix(3, numberOfColumns);
         //Asignamos posiciones de caracteres en lista de alfabetos
         for (int i = 0; i < 3; i++) {
-            System.out.println();
             for (int j = 0; j < numberOfColumns; j++) {
                 final int position = j + (i * numberOfColumns);
                 if (position > (message.length() - 1)) {
@@ -41,10 +41,15 @@ public class Main {
                 } else {
                     matrixM[i][j] = alphabetList.indexOf(message.split("")[position]);
                 }
-                System.out.print(alphabetList.get(matrixM[i][j]));
             }
         }
 
+        MatrixOperations.printMatrix(matrixM, " ");
 
+        System.out.println("-------------------------------------------------");
+
+        final int[][] matrixC = MatrixOperations.getMatrixSum(MatrixOperations.getMatrixMultiplication(matrixA, matrixM), matrixB);
+
+        MatrixOperations.printMatrix(matrixC, " ");
     }
 }
