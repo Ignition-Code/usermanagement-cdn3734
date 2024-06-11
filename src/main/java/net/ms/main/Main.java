@@ -1,7 +1,9 @@
 package net.ms.main;
 
+import net.ms.cipher.Cipher;
 import net.ms.util.Alphabet;
 import net.ms.util.MatrixOperations;
+import net.ms.util.Number;
 
 import java.util.List;
 
@@ -44,12 +46,27 @@ public class Main {
             }
         }
 
-        MatrixOperations.printMatrix(matrixM, " ");
+        //MatrixOperations.printMatrix(matrixM, " ");
+
+        //System.out.println("-------------------------------------------------");
+
+        final int[][] matrixC = Cipher.encrypt(MatrixOperations.getMatrixMultiplication(matrixA, matrixM), matrixB);
+
+        System.out.println("Encrypted message!");
+        MatrixOperations.printMatrix(matrixC, " ");
+
+        //Fin de encriptación
+        final double[][] decrypt = Cipher.decrypt(MatrixOperations.getInvertedMatrix(matrixA), MatrixOperations.getMatrixSubtraction(matrixC, matrixB));
 
         System.out.println("-------------------------------------------------");
-
-        final int[][] matrixC = MatrixOperations.getMatrixSum(MatrixOperations.getMatrixMultiplication(matrixA, matrixM), matrixB);
-
-        MatrixOperations.printMatrix(matrixC, " ");
+        System.out.println("Decrypted message!");
+        //MatrixOperations.printMatrix(decrypt, " ");
+        //System.out.println("-------------------------------------------------");
+        for (double[] row: decrypt) {
+            for (double cell: row) {
+                System.out.print(alphabetList.get(Number.roundDouble(cell)));
+            }
+        }
+        //Fin desencriptar
     }
 }
